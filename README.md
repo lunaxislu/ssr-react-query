@@ -1,3 +1,10 @@
+## 사용
+
+pnpm json-server --watch db.json --port 5000
+
+댕댕냥 서버
+localhost:4000
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
