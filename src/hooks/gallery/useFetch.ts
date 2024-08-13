@@ -8,7 +8,7 @@ const useFetchGalleryQuery = () => {
   const fetchGalleries = async (pageParam: number) => {
     try {
       const response = await axiosAPI.get(
-        `post/All/${pageParam}?isNotHeader=true`,
+        `post/All/${pageParam}?isNotHeader=true`
       );
       console.log(response.data);
       return response.data;
@@ -33,6 +33,7 @@ const useFetchGalleryQuery = () => {
     queryKey: ["galleryUpload"],
     queryFn: ({ pageParam }) => fetchGalleries(pageParam),
     initialPageParam: 1,
+
     getNextPageParam: (lastPage, allPage) => {
       if (lastPage) {
         if (lastPage?.length === 0) {

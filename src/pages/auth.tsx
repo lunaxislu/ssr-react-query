@@ -24,7 +24,6 @@ const Auth = () => {
       redirect: true,
       callbackUrl: "/",
     });
-    console.log(result);
   };
 
   return (

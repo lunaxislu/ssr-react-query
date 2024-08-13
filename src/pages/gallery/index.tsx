@@ -10,57 +10,55 @@ import React, { useState } from "react";
 
 const Post = () => {
   const router = useRouter();
-  console.log(router.pathname);
-  router.push("", undefined, {});
-  console.log(router.asPath);
+
   const [state, setState] = useState(1);
   return (
     <div>
       {router.asPath}
       <div style={{ display: "flex", gap: "20px" }}>
         <Link
-          // shallow={true}
+          shallow={true}
           style={{ backgroundColor: "white", padding: "20px", color: "black" }}
           href={{
-            pathname: "/post/",
+            pathname: "/gallery",
           }}
         >
-          /post
-        </Link>
-        <Link
-          // shallow={true}
-          style={{ backgroundColor: "white", padding: "20px", color: "black" }}
-          href={"/post/1"}
-        >
-          /post/1
+          /gallery
         </Link>
         <Link
           shallow={true}
           style={{ backgroundColor: "white", padding: "20px", color: "black" }}
-          href={"/post/2"}
+          href={"/gallery/detail/1"}
         >
-          /post/2
+          /gallery/detail/1
         </Link>
         <Link
           shallow={true}
           style={{ backgroundColor: "white", padding: "20px", color: "black" }}
-          href={"/post/3"}
+          href={"/gallery/detail/2"}
         >
-          /post/3
+          /gallery/detail/2
         </Link>
         <Link
           shallow={true}
           style={{ backgroundColor: "white", padding: "20px", color: "black" }}
-          href={"/post/4"}
+          href={"/gallery/detail/3"}
         >
-          /post/4
+          /gallery/detail/3
         </Link>
         <Link
           shallow={true}
           style={{ backgroundColor: "white", padding: "20px", color: "black" }}
-          href={"/post/5"}
+          href={"/gallery/detail/4"}
         >
-          /post/5
+          /gallery/detail/4
+        </Link>
+        <Link
+          shallow={true}
+          style={{ backgroundColor: "white", padding: "20px", color: "black" }}
+          href={"/gallery/detail/5"}
+        >
+          /gallery/detail/5
         </Link>
       </div>
     </div>
@@ -68,20 +66,9 @@ const Post = () => {
 };
 
 export default Post;
-export const getStaticPaths = (async () => {
-  const paths = [
-    { params: { id: ["1"] } }, // <- '1'이 배열로 감싸져 있음
-    { params: { id: ["2"] } }, // <- '2'도 배열로 감싸져 있음
-    { params: { id: [] } }, // <- 기본 루트(/post) 경로도 처리하려면 빈 배열 사용
-  ];
 
-  return {
-    paths: [],
-    fallback: true, // false or "blocking"
-  };
-}) satisfies GetStaticPaths;
 export async function getStaticProps(ctx: GetStaticPropsContext) {
-  console.log(ctx.params);
+  console.log("🚀 ~ galleryDetail ~ ctx:", ctx);
   return {
     props: {
       prop: "",

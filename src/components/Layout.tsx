@@ -40,8 +40,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
             로그아웃
           </span>
         )}
+        <Link style={LINK_STYLE} href={"/ssr"}>
+          SSR Page
+        </Link>
         <Link style={LINK_STYLE} href={"/post"}>
           post
+        </Link>
+        <Link style={LINK_STYLE} href={"/sample/"} shallow={true}>
+          sample
+        </Link>
+        <Link style={LINK_STYLE} href={"/sample2/"} shallow={true}>
+          sample2
         </Link>
         <Link style={LINK_STYLE} href={"/gallery"}>
           gallery

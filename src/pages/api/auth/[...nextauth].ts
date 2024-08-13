@@ -5,6 +5,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import { decode } from "next-auth/jwt";
 
 import CredentialsProvider from "next-auth/providers/credentials";
+import { serialize } from "v8";
 
 interface IAuth {
   email: string;
@@ -72,7 +73,6 @@ export const authOptions = {
     async session({ session, token, user }) {
       if (token) {
         session.user.accessToken = token.accessToken;
-        session.expires = token.exp;
 
         return session;
       }
@@ -86,6 +86,7 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 } satisfies NextAuthOptions;
 export default NextAuth(authOptions);
