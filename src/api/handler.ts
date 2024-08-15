@@ -28,3 +28,13 @@ export const testFetchAPI = async ({ pageParam = 1 }) => {
  * 이런 방식으로 특정 userId, status, 또는 다른 필드 값에 따라 데이터를 필터링할 수 있습니다.
  * 이런식으로 쿼리스트링을 사용해서 특정 데이터를 가져올 수 있어.
  */
+
+export const testFetchPostAPI = async (id: number) => {
+  try {
+    const { data } = await instance.get(`/posts/${id}`); // 특정 id로 데이터 가져오기
+    console.log(data);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

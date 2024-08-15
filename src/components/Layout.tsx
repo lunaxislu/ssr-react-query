@@ -43,14 +43,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <Link style={LINK_STYLE} href={"/ssr"}>
           SSR Page
         </Link>
-        <Link style={LINK_STYLE} href={"/post"}>
+        <Link style={LINK_STYLE} href={"/post"} shallow={true}>
           post
         </Link>
-        <Link style={LINK_STYLE} href={"/sample/"} shallow={true}>
+        <Link style={LINK_STYLE} href={"/sample"} shallow={true}>
           sample
-        </Link>
-        <Link style={LINK_STYLE} href={"/sample2/"} shallow={true}>
-          sample2
         </Link>
         <Link style={LINK_STYLE} href={"/gallery"}>
           gallery

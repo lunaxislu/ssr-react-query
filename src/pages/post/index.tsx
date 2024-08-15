@@ -67,39 +67,26 @@ const Post = (props: { post: { title: string; content: string } }) => {
 };
 
 export default Post;
-// export const getServerSideProps = async (
-//   ctx: GetServerSidePropsContext
-// ) => {
-//   console.log(ctx.req.url?.includes("/_next/"));
-//   const { params } = ctx;
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  console.log(ctx.req.url?.includes("/_next/"));
+  const { params } = ctx;
 
-//   if (ctx.req.url?.includes("/_next/data/development/post.json")) return {};
-//   return {
-//     props: {
-//       post: {
-//         title: "title",
-//         content: "content",
-//       },
-//     },
-//   };
-// };
-// export const getStaticPaths = (async () => {
-//   const paths = [
-//     { params: { id: ["1"] } }, // <- '1'이 배열로 감싸져 있음
-//     { params: { id: ["2"] } }, // <- '2'도 배열로 감싸져 있음
-//     { params: { id: [] } }, // <- 기본 루트(/post) 경로도 처리하려면 빈 배열 사용
-//   ];
+  if (ctx.req.url?.includes("/_next/data/development/post.json"))
+    return {
+      props: {
+        post: {
+          title: "title",
+          content: "content",
+        },
+      },
+    };
+  return {
+    props: {
+      post: {
+        title: "title",
+        content: "content",
+      },
+    },
+  };
+};
 
-//   return {
-//     paths: [],
-//     fallback: true, // false or "blocking"
-//   };
-// }) satisfies GetStaticPaths;
-// export async function getStaticProps(ctx: GetStaticPropsContext) {
-//   // console.log(ctx.params);
-//   return {
-//     props: {
-//       prop: "",
-//     },
-//   };
-// }

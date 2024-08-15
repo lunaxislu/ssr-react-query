@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { getSession, signIn } from "next-auth/react";
 interface IQueryData {
   pageParams: number[];
   pages: { userId: number; id: number; title: string; body: string }[][];
@@ -21,6 +22,7 @@ type TData = {
   title: string;
   body: string;
 };
+
 const PostDetail = (props: { post: TData }) => {
   const router = useRouter();
   //console.log(router.query); 이거 사용해야 함
@@ -33,19 +35,28 @@ const PostDetail = (props: { post: TData }) => {
           router.query.id
         }`,
       );
-
+      console.log(result.data);
       return result.data;
+      
     },
 
-    // initialData: () => {
-    //   const initial = queryClient.getQueryData<TData>([
-    //     "test" + router.query.id,
-    //   ]);
-    //   console.log("initialData--------->", initial);
-    //   return initial;
-    // },
+    initialData: () => {
+      const initial = queryClient.getQueryData<TData>([
+        "test" + router.query.id,
+      ]);
+      console.log("initialData--------->", initial);
+      return initial;
+    },
+    initialDataUpdatedAt() {
+      return queryClient.getQueryState(["test" + router.query.id])
+        ?.dataUpdatedAt;
+    },
+    staleTime: 10000,
+    gcTime: 800000000,
   });
-
+  console.log(
+    queryClient.getQueryState(["test" + router.query.id])?.dataUpdatedAt,
+  );
   const [state, setState] = useState<TData | undefined>(testData);
   console.log(testData, "-----------------", props.post);
 
@@ -60,6 +71,7 @@ const PostDetail = (props: { post: TData }) => {
 };
 
 export default PostDetail;
+
 export const getServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
@@ -70,21 +82,23 @@ export const getServerSideProps = async (
   const isCsr = context.req.url?.includes("/_next/");
   if (!isCsr) {
     const queryClient = new QueryClient();
-    await queryClient.fetchQuery({
-      queryKey: ["test" + id],
-      queryFn: async () => {
-        const { data } = await axios.get<TData[]>(
-          `https://jsonplaceholder.typicode.com/posts?id=${id}`,
-        );
-        return data[0];
-      },
-    });
+    try {
+      await queryClient.fetchQuery({
+        queryKey: ["test" + id],
+        queryFn: async () => {
+          const { data } = await axios.get<TData[]>(
+            `https://jsonplaceholder.typicode.com/posts?id=${id}`,
+          );
+          return data[0];
+        },
+      });
 
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
+      return {
+        props: {
+          dehydratedState: dehydrate(queryClient),
+        },
+      };
+    } catch (err) {}
   }
   return {
     props: {

@@ -7,7 +7,8 @@ import {
 import React, { useEffect } from "react";
 import useSetQueryHook from "./useQueryHook";
 interface IProps {
-  [key: string]: ({ pageParam }: { pageParam: number }) => Promise<any>;
+  queryKey: string[];
+  testFetchAPI: ({ pageParam }: { pageParam: number }) => Promise<any>;
 }
 new QueryCache({});
 interface IQueryData {
@@ -28,7 +29,7 @@ const useFetchTest = (props: IProps) => {
     isFetchingNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["test"],
+    queryKey: props.queryKey,
     queryFn: ({ pageParam }) => props.testFetchAPI({ pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -38,7 +39,7 @@ const useFetchTest = (props: IProps) => {
       const res = data.pages.map((pageData) => pageData).flat();
 
       res.forEach((data) => {
-        const queryKey = ["test" + data.id];
+        const queryKey = [...props.queryKey, `${data.id}`];
         client.setQueryData(queryKey, data);
       });
 
