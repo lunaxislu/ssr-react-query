@@ -8,7 +8,8 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -23,6 +24,29 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       }),
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    const page = router.asPath;
+    const handleRouteChangeStart = (page: string) => {
+      console.time(`${page}Page Transition Time`);
+    };
+
+    const handleRouteChangeComplete = (page: string) => {
+      console.timeEnd(`${page}Page Transition Time`);
+    };
+
+    router.events.on("routeChangeStart", () => handleRouteChangeStart(page));
+    router.events.on("routeChangeComplete", () =>
+      handleRouteChangeComplete(page),
+    );
+
+    // 클린업 함수
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+      router.events.off("routeChangeComplete", handleRouteChangeComplete);
+    };
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>

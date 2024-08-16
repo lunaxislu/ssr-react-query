@@ -6,9 +6,9 @@ import {
   UseQueryOptions,
 } from "@tanstack/react-query";
 import Link from "next/link";
-import React, { Fragment } from "react";
+import React from "react";
 
-const SamplePaginationComponent = ({
+const Sample2PaginationComponent = ({
   id,
   queryClient,
 }: {
@@ -26,16 +26,16 @@ const SamplePaginationComponent = ({
   const queryKeys = getOtherSamplePostSequence(id);
   const queries: UseQueryOptions<any, unknown, unknown, (string | number)[]>[] =
     queryKeys.map((key) => ({
-      queryKey: ["samplePost", `${key}`],
+      queryKey: ["sample2Post", `${key}`],
       queryFn: () => testFetchPostAPI(key),
-      initialData: queryClient.getQueryData(["samplePost", `${key}`]), // testFetchPostAPI 각 key에 대한 데이터를 가져오는 함수
+      initialData: queryClient.getQueryData(["sample2Post", `${key}`]), // testFetchPostAPI 각 key에 대한 데이터를 가져오는 함수
       //staleTime:
       //gcTime: whatever you want to reflect
       select(data) {
         if (!data)
           // 데이터가 없을 때ㅑ
           queryClient.removeQueries({
-            queryKey: ["samplePost", `${key}`],
+            queryKey: ["sample2Post", `${key}`],
           });
         return data;
       },
@@ -44,7 +44,6 @@ const SamplePaginationComponent = ({
   const results = useQueries({
     queries,
   });
-
   return (
     <div className="bg-orange-400">
       <h2 className="mx-auto w-1/2 text-center bg-amber-200 p-12">
@@ -58,10 +57,7 @@ const SamplePaginationComponent = ({
                 <Skeleton className="w-[240px] h-[240px]" />
               ) : query.data ? (
                 <Link
-                  href={{
-                    href: `/sample/${query.data.id}`,
-                    query: { postId: query.data.id },
-                  }}
+                  href={`/sample2/${query.data.id}/`}
                   shallow={true}
                   prefetch={false} // hover 할 때만 prefetch
                 >
@@ -78,4 +74,4 @@ const SamplePaginationComponent = ({
   );
 };
 
-export default SamplePaginationComponent;
+export default Sample2PaginationComponent;

@@ -43,12 +43,16 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <Link style={LINK_STYLE} href={"/currentTest"}>
           CurrentTest Page
         </Link>
+        <Link style={LINK_STYLE} href={"/sample"} shallow={true}>
+          sample Page
+        </Link>
+        <Link style={LINK_STYLE} href={"/sample2"} shallow={true}>
+          sample2 Page
+        </Link>
         <Link style={LINK_STYLE} href={"/post"} shallow={true}>
           post
         </Link>
-        <Link style={LINK_STYLE} href={"/sample"} shallow={true}>
-          sample
-        </Link>
+
         <Link style={LINK_STYLE} href={"/current"}>
           current
         </Link>

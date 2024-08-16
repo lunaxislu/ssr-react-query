@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
@@ -34,6 +34,18 @@ const LazySampleDetailComponent = dynamic(
 const BASE_PATH = "/sample";
 const SamplePage = () => {
   const router = useRouter();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const timing = window.performance.timing;
+
+      const pageLoadTime = timing.loadEventEnd - timing.navigationStart;
+      const domContentLoadedTime =
+        timing.domContentLoadedEventEnd - timing.navigationStart;
+
+      console.log("SamplePage SSR Load Time:", pageLoadTime);
+      console.log("DOM Content Loaded Time:", domContentLoadedTime);
+    }
+  }, [router.asPath]);
   return (
     <div>
       {router.asPath === BASE_PATH ? (
@@ -107,11 +119,6 @@ export const getServerSideProps = withCSR(
   async (ctx: GetServerSidePropsContext) => {
     const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
     const queryClient = new QueryClient();
-    await queryClient.prefetchInfiniteQuery({
-      initialPageParam: 1,
-      queryKey: ["samplePost"],
-      queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
-    });
 
     if (queryKey) {
       console.log(queryKey, "query가 있으면 여기 로직");
