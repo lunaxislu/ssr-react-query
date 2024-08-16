@@ -34,7 +34,7 @@ const CurrentTestDetailPagination = ({ id }: { id: string }) => {
               ) : query.data ? (
                 <div
                   onClick={() => navigateHandler(query.data.id)}
-                  className="border-r-rose-700"
+                  className="border-r-rose-700 cursor-pointer"
                 >
                   <h3>{query.data.title}</h3>
                   <p>{query.data.body}</p>

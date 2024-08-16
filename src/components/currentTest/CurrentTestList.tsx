@@ -25,7 +25,7 @@ const CurrentTestList = () => {
       if (inView) fetchNextPage();
     },
   });
-  console.log(posts);
+
   if (isLoading) return <Skeleton />;
   if (!posts) return <div>데이터가 없습니다.</div>;
   return (

@@ -24,10 +24,10 @@ const ScrollSampleComponents = () => {
       if (inView) fetchNextPage();
     },
   });
-  console.log(posts);
+
   return (
     <div style={{ height: "100vh" }}>
-      <div className="flex flex-wrap gap-[0.8rem]">
+      <div className="flex flex-wrap justify-start w-[128rem] h-auto gap-[0.8rem] mx-auto">
         {posts?.map((post) => {
           return (
             <Link
@@ -37,11 +37,10 @@ const ScrollSampleComponents = () => {
               }}
               shallow={true}
               key={post.id}
-              className="h-[300px] w-[400px] p-[1rem] bg-red-500 flex items-center justify-center flex-col"
+              className="flex flex-col items-center w-[30.2rem] h-[32.5rem] bg-white rounded-lg shadow-md cursor-pointer overflow-hidden"
             >
-              <div>{post.id}</div>
-              <div>{post.title}</div>
-              <div>{post.body}</div>
+              <h3 className="text-xl font-bold mb-2">{post?.title}</h3>
+              <p className="text-gray-500 mb-4">{post?.body}</p>
             </Link>
           );
         })}
