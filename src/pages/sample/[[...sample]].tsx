@@ -57,7 +57,16 @@ export default SamplePage;
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   // const data = fetch
   console.log(ctx.req.url, "<-------");
-
+  console.log(ctx.query);
+  const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
+  if (queryKey) {
+    console.log(queryKey, "query가 있으면 여기 로직");
+  } else {
+    console.log(
+      queryKey,
+      "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
+    );
+  }
   return {
     props: {
       ssr: { "ctx.req.url": "caching", "ctx.resolvedUrl": "caching" },
@@ -65,6 +74,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   };
 }
 
-// export const getServerSideProps = withCSR(async(ctx:GetServerSidePropsContext)=>{
+// export const getServerSideProps = withCSR(
+//   async (ctx: GetServerSidePropsContext) => {
 
-// })
+//   },
+// );

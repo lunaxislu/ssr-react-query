@@ -16,6 +16,7 @@ const SampleDetailComponent = () => {
     },
   );
   const queryClient = useQueryClient();
+
   const router = useRouter();
   const id = router.query.postId as string;
   const { data } = useQuery<TPostData>({
