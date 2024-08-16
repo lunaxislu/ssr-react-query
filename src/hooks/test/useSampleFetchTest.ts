@@ -5,17 +5,17 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import useSetQueryHook from "./useQueryHook";
+
 interface IProps {
   queryKey: string[];
   testFetchAPI: ({ pageParam }: { pageParam: number }) => Promise<any>;
 }
-new QueryCache({});
+
 interface IQueryData {
   pageParams: number[];
   pages: { userId: number; id: number; title: string; body: string }[][];
 }
-const useFetchTest = (props: IProps) => {
+const useSampleFetch = (props: IProps) => {
   const client = useQueryClient();
 
   const {
@@ -60,4 +60,4 @@ const useFetchTest = (props: IProps) => {
   };
 };
 
-export default useFetchTest;
+export default useSampleFetch;

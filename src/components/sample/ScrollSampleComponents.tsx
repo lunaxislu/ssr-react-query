@@ -1,5 +1,6 @@
 import { testFetchAPI } from "@/api/handler";
-import useFetchTest from "@/hooks/test/useFetchTest";
+import useSampleFetch from "@/hooks/test/useSampleFetchTest";
+import useFetchTest from "@/hooks/test/useSampleFetchTest";
 import Link from "next/link";
 import React from "react";
 import { useInView } from "react-intersection-observer";
@@ -15,7 +16,7 @@ const ScrollSampleComponents = () => {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useFetchTest({ testFetchAPI, queryKey: ["samplePost"] });
+  } = useSampleFetch({ testFetchAPI, queryKey: ["samplePost"] });
   const { ref, inView } = useInView({
     threshold: 0.1,
     onChange: (inView, entry) => {
