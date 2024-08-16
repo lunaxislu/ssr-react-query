@@ -26,7 +26,6 @@ const ScrollSample2Component = () => {
     <div style={{ height: "100vh" }}>
       <div className="flex flex-wrap justify-start w-[128rem] h-auto gap-[0.8rem] mx-auto">
         {posts?.map((post) => {
-          console.log(post.id);
           return (
             <Link
               href={`/sample2/${post.id}/`}

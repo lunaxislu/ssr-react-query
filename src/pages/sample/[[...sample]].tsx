@@ -34,18 +34,7 @@ const LazySampleDetailComponent = dynamic(
 const BASE_PATH = "/sample";
 const SamplePage = () => {
   const router = useRouter();
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const timing = window.performance.timing;
 
-      const pageLoadTime = timing.loadEventEnd - timing.navigationStart;
-      const domContentLoadedTime =
-        timing.domContentLoadedEventEnd - timing.navigationStart;
-
-      console.log("SamplePage SSR Load Time:", pageLoadTime);
-      console.log("DOM Content Loaded Time:", domContentLoadedTime);
-    }
-  }, [router.asPath]);
   return (
     <div>
       {router.asPath === BASE_PATH ? (

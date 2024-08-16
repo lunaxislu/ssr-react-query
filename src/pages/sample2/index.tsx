@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { withCSR } from "@/api/csr-with";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { testFetchAPI, testFetchPostAPI } from "@/api/handler";
+import { testFetchAPI } from "@/api/handler";
 import ScrollSample2Component from "@/components/sample2/ScrollSample2Component";
 const Sample2Page = () => {
   return (
