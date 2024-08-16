@@ -8,6 +8,7 @@ import ScrollSampleComponents from "@/components/sample/ScrollSampleComponents";
 import SampleDetailComponent from "@/components/sample/detail/SampleDetailComponent";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { testFetchAPI, testFetchPostAPI } from "@/api/handler";
+import dynamic from "next/dynamic";
 
 export interface TData {
   userId: string;
@@ -23,20 +24,31 @@ export interface TDetailData {
   category: string[];
   comments: string[];
 }
+const LazyScrollSampleComponents = dynamic(
+  () => import("@/components/sample/ScrollSampleComponents"),
+);
+const LazySampleDetailComponent = dynamic(
+  () => import("@/components/sample/detail/SampleDetailComponent"),
+);
+
 const BASE_PATH = "/sample";
 const SamplePage = () => {
   const router = useRouter();
   return (
     <div>
       {router.asPath === BASE_PATH ? (
-        <ScrollSampleComponents />
+        //<ScrollSampleComponents />
+
+        <LazyScrollSampleComponents />
       ) : (
-        <SampleDetailComponent />
+        //<SampleDetailComponent />
+        <LazySampleDetailComponent />
       )}
       router의 path : {router.asPath}
     </div>
   );
 };
+``;
 
 export default SamplePage;
 
@@ -56,36 +68,74 @@ export default SamplePage;
 
 // Case 1과 2,3번 중 무엇으로 조건부 처리하면 좋을지 생각해보기
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const queryClient = new QueryClient();
-  const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
-  if (queryKey) {
-    console.log(queryKey, "query가 있으면 여기 로직");
-    await queryClient.prefetchQuery({
-      queryKey: ["samplePost", queryKey],
-      queryFn: () => testFetchPostAPI(+queryKey),
-    });
-  } else {
-    console.log(
-      queryKey,
-      "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
-    );
+// export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+//   const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
+//   const queryClient = new QueryClient();
+//   await queryClient.prefetchInfiniteQuery({
+//     initialPageParam: 1,
+//     queryKey: ["samplePost"],
+//     queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
+//   });
 
+//   if (queryKey) {
+//     console.log(queryKey, "query가 있으면 여기 로직");
+//     await queryClient.prefetchQuery({
+//       queryKey: ["samplePost", queryKey],
+//       queryFn: () => testFetchPostAPI(+queryKey),
+//     });
+//   } else {
+//     console.log(
+//       queryKey,
+//       "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
+//     );
+
+//     await queryClient.prefetchInfiniteQuery({
+//       queryKey: ["samplePost"],
+//       initialPageParam: 1,
+//       queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
+//     });
+//   }
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }
+
+export const getServerSideProps = withCSR(
+  async (ctx: GetServerSidePropsContext) => {
+    const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
+    const queryClient = new QueryClient();
     await queryClient.prefetchInfiniteQuery({
-      queryKey: ["samplePost"],
       initialPageParam: 1,
+      queryKey: ["samplePost"],
       queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
     });
-  }
-  return {
-    props: {
-      dehydrateState: dehydrate(queryClient),
-    },
-  };
-}
 
-// export const getServerSideProps = withCSR(
-//   async (ctx: GetServerSidePropsContext) => {
+    if (queryKey) {
+      console.log(queryKey, "query가 있으면 여기 로직");
+      await queryClient.prefetchQuery({
+        queryKey: ["samplePost", queryKey],
+        queryFn: () => testFetchPostAPI(+queryKey),
+      });
+    } else {
+      console.log(
+        queryKey,
+        "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
+      );
 
-//   },
-// );
+      await queryClient.prefetchInfiniteQuery({
+        queryKey: ["samplePost"],
+        initialPageParam: 1,
+        queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
+      });
+    }
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  },
+);

@@ -24,6 +24,7 @@ const ScrollSampleComponents = () => {
       if (inView) fetchNextPage();
     },
   });
+  console.log(posts);
   return (
     <div style={{ height: "100vh" }}>
       <div className="flex flex-wrap gap-[0.8rem]">

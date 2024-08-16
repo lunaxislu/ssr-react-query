@@ -16,7 +16,7 @@ const CurrentTestDetailPagination = ({ id }: { id: string }) => {
   const queryKeys = getOtherSamplePostSequence(id);
   const queries: UseQueryOptions<any, unknown, unknown, (string | number)[]>[] =
     queryKeys.map((key) => ({
-      queryKey: ["samplePost", `${key}`],
+      queryKey: ["currentTestPost", `${key}`],
       queryFn: () => testFetchPostAPI(key),
       retry: false,
     }));
