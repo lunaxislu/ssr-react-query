@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
+import { access } from "fs";
+import { getSession } from "next-auth/react";
 
 // 서버주소
 const baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;

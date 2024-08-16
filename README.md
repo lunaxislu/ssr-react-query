@@ -1,5 +1,8 @@
 ## 사용
 
+test id : testtest@test.com
+test pwd : 123456
+
 pnpm json-server --watch db.json --port 5000
 
 댕댕냥 서버

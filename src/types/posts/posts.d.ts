@@ -3,10 +3,10 @@ interface Post {
   id: number; // 각 post의 고유 id
   userId: number; // post를 쓴 user의 id
   thumbnail: string; // 대빵 이미지
+  updatedAt: Date;
   title: string;
   content: string;
   createdAt: Date;
-  updatedAt: Date;
   deletedAt: Date;
 }
 

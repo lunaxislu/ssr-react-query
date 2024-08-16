@@ -13,17 +13,21 @@ type Schema = z.infer<typeof schema>;
 const Auth = () => {
   const method = useForm<Schema>({
     defaultValues: {
-      email: "testtest@gmail.com",
+      email: "testtest@test.com",
       password: "123456",
     },
     resolver: zodResolver(schema),
   });
   const handleSubmit = async (value: Schema) => {
-    const result = await signIn("HTTLogin", {
-      ...value,
-      redirect: true,
-      callbackUrl: "/",
-    });
+    try {
+      const result = await signIn("HTTLogin", {
+        ...value,
+        redirect: true,
+        callbackUrl: "/",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

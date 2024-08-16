@@ -16,7 +16,8 @@ declare module "next-auth" {
     email: string;
     password: string;
     passwordConfirm: string;
-    token: string;
+    accessToken: string;
+    refreshToken: string;
   }
 
   // 여기서 재정의한 타입이 session의 타입으로 재정의 됨
@@ -24,6 +25,7 @@ declare module "next-auth" {
     expires: number;
     user: {
       accessToken: string;
+      refreshToken: string;
     };
   }
 }
@@ -37,6 +39,7 @@ declare module "next-auth/jwt" {
   // 여기서 재정의한 JWT는 callbacks의 jwt의 인자 값인 token의 type을 재정의 하여 타입추론이 되게끔합니다.
   interface JWT {
     accessToken: string;
+    refreshToken: string;
     role: string;
     exp: number;
   }

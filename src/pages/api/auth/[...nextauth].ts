@@ -1,11 +1,6 @@
-import { axiosAPI } from "@/api/handler";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import jwt from "jsonwebtoken";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { decode } from "next-auth/jwt";
-
 import CredentialsProvider from "next-auth/providers/credentials";
-import { serialize } from "v8";
 
 interface IAuth {
   email: string;
@@ -30,14 +25,14 @@ export const authOptions = {
         const { email, password } = credentials as IAuth;
         try {
           const { data } = await axios.post<IAuth, AxiosResponse>(
-            "http://localhost:3000/api/token/handler",
+            "http://localhost:4000/auth/sign-in",
             {
               email,
               password,
             },
           );
 
-          return data.data;
+          return data;
         } catch (err) {
           if (err instanceof AxiosError) {
             throw new Error(JSON.stringify(err.response?.data));
@@ -59,13 +54,10 @@ export const authOptions = {
       // iat: 1722326528, exp: 1722542528
 
       if (user) {
-        const payload = jwt.verify(
-          user.token,
-          `${process.env.NEXTAUTH_SECRET}`,
-        ) as jwt.JwtPayload;
         token.role = "user";
-        token.accessToken = user.token;
-        token.exp = payload.exp as number;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        return token;
       }
       return token;
     },
@@ -73,6 +65,7 @@ export const authOptions = {
     async session({ session, token, user }) {
       if (token) {
         session.user.accessToken = token.accessToken;
+        session.user.refreshToken = token.refreshToken;
 
         return session;
       }
