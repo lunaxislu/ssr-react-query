@@ -8,10 +8,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { MouseEvent, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import useFetchTest from "@/hooks/test/useFetchTest";
+
 import { testFetchAPI } from "@/api/handler";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import useSampleFetch from "@/hooks/test/useSampleFetchTest";
 const Post = (props: { post: { title: string; content: string } }) => {
   const router = useRouter();
   const [state, setState] = useState(1);
@@ -25,7 +26,7 @@ const Post = (props: { post: { title: string; content: string } }) => {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useFetchTest({ testFetchAPI });
+  } = useSampleFetch({ testFetchAPI, queryKey: ["samplePost"] });
   const { ref, inView } = useInView({
     threshold: 0.1,
     onChange: (inView, entry) => {
@@ -89,4 +90,3 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     },
   };
 };
-
