@@ -10,7 +10,7 @@ const CurrentTestDetailPage = ({ id }: { id: string }) => {
     isLoading,
     refetch: fetchGalleries,
   } = useCurrentTestDetailFetch(id);
-  return <CurrentTestDetail data={data} isLoading={isLoading} />;
+  return <CurrentTestDetail data={data} isLoading={isLoading} id={id} />;
 };
 
 export default CurrentTestDetailPage;

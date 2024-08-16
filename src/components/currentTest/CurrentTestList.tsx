@@ -5,7 +5,6 @@ import React from "react";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "../ui/skeleton";
 import CurrentTestListItem from "./CurrentTestListItem";
-import { I_CurrentItemData } from "@/types/current/current";
 
 const CurrentTestList = () => {
   const {
@@ -18,7 +17,7 @@ const CurrentTestList = () => {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useCurrentTestFetch({ testFetchAPI, queryKey: ["samplePost"] });
+  } = useCurrentTestFetch({ testFetchAPI, queryKey: ["currentTestPosts"] });
   const { ref, inView } = useInView({
     threshold: 0.1,
     onChange: (inView, entry) => {

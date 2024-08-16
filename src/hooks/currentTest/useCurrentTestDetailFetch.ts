@@ -6,7 +6,7 @@ import React from "react";
 const useCurrentTestDetailFetch = (id: string) => {
   const { data, isLoading, refetch, isError, error } = useQuery<TestDetailData>(
     {
-      queryKey: [],
+      queryKey: ["currentTestPosts", id],
       queryFn: () => testFetchPostAPI(+id),
     },
   );
