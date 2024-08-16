@@ -34,7 +34,7 @@ export const testFetchAPI = async ({ pageParam = 1 }) => {
 export const testFetchPostAPI = async (id: number) => {
   try {
     const { data } = await instance.get(`/posts/${id}`); // 특정 id로 데이터 가져오기
-    console.log(data);
+
     return data;
   } catch (err) {
     throw err;

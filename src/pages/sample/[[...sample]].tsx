@@ -6,6 +6,8 @@ import { withCSR } from "@/api/csr-with";
 import { ParsedUrl } from "next/dist/shared/lib/router/utils/parse-url";
 import ScrollSampleComponents from "@/components/sample/ScrollSampleComponents";
 import SampleDetailComponent from "@/components/sample/detail/SampleDetailComponent";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { testFetchAPI, testFetchPostAPI } from "@/api/handler";
 
 export interface TData {
   userId: string;
@@ -55,21 +57,29 @@ export default SamplePage;
 // Case 1과 2,3번 중 무엇으로 조건부 처리하면 좋을지 생각해보기
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  // const data = fetch
-  console.log(ctx.req.url, "<-------");
-  console.log(ctx.query);
+  const queryClient = new QueryClient();
   const queryKey = ctx.query.postId; // query를 가지기 위해 각 Link 컴포넌트에 query를 넣어 줬습니다. query: { postId: query.data.id },
   if (queryKey) {
     console.log(queryKey, "query가 있으면 여기 로직");
+    await queryClient.prefetchQuery({
+      queryKey: ["samplePost", queryKey],
+      queryFn: () => testFetchPostAPI(+queryKey),
+    });
   } else {
     console.log(
       queryKey,
       "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
     );
+
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ["samplePost"],
+      initialPageParam: 1,
+      queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
+    });
   }
   return {
     props: {
-      ssr: { "ctx.req.url": "caching", "ctx.resolvedUrl": "caching" },
+      dehydrateState: dehydrate(queryClient),
     },
   };
 }
