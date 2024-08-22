@@ -8,16 +8,26 @@ import ChangeToDetail from "@/components/changeToSample1/detail/ChangeToDetail";
 import { PostQueryKey } from "@/types/changeToSample/changeToSample";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
-
+const LazyScrollComponents = dynamic(
+  () => import("@/components/changeToSample1/ChangeToList"),
+);
+const LazyDetailComponent = dynamic(
+  () => import("@/components/changeToSample1/detail/ChangeToDetail"),
+);
 const BASE_PATH = "/change-current-ToSample1";
 const ChangeToSamplePage = () => {
   const router = useRouter();
 
   return (
     <div>
-      {router.asPath === BASE_PATH ? <ChangeToList /> : <ChangeToDetail />}
+      {router.asPath === BASE_PATH ? (
+        <LazyScrollComponents />
+      ) : (
+        <LazyDetailComponent />
+      )}
       router의 path : {router.asPath}
     </div>
   );
@@ -37,7 +47,7 @@ export const getServerSideProps = withCSR(
       });
     }
 
-    if (queryKey) {
+    if (!queryKey) {
       await queryClient.prefetchInfiniteQuery({
         queryKey: [PostQueryKey.posts],
         initialPageParam: 1,
