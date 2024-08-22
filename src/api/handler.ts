@@ -2,12 +2,6 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 import { access } from "fs";
 import { getSession } from "next-auth/react";
 
-// 서버주소
-const baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
-export const axiosAPI = axios.create({
-  baseURL,
-});
-
 // 테스트용
 const instance = axios.create({
   baseURL: "https://jsonplaceholder.typicode.com",

@@ -49,12 +49,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <Link style={LINK_STYLE} href={"/sample2"} shallow={true}>
           sample2 Page
         </Link>
-        <Link style={LINK_STYLE} href={"/post"} shallow={true}>
-          post
-        </Link>
-
-        <Link style={LINK_STYLE} href={"/current"}>
-          current
+        <Link
+          style={LINK_STYLE}
+          href={"/change-current-ToSample1"}
+          shallow={true}
+        >
+          change-current-ToSample1
         </Link>
         {status !== "authenticated" ? (
           <span style={AUTH_STATE_STYLE}>로그인 전 입니다.</span>

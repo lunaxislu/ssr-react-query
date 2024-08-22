@@ -1,5 +1,4 @@
 import { testCurrentFetchAPI } from "@/api/current/handler";
-import { axiosAPI } from "@/api/handler";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const useFetchCurrentQuery = () => {
