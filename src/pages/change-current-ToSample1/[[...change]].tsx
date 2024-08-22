@@ -45,9 +45,7 @@ export const getServerSideProps = withCSR(
         queryKey: [PostQueryKey.posts, queryKey],
         queryFn: () => fetchChangeSampleDetailAPI(queryKey as string),
       });
-    }
-
-    if (!queryKey) {
+    } else {
       await queryClient.prefetchInfiniteQuery({
         queryKey: [PostQueryKey.posts],
         initialPageParam: 1,
