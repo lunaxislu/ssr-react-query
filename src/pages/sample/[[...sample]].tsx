@@ -111,7 +111,7 @@ export const getServerSideProps = withCSR(
 
     if (queryKey) {
       console.log(queryKey, "query가 있으면 여기 로직");
-      await queryClient.prefetchQuery({
+      await queryClient.fetchQuery({
         queryKey: ["samplePost", queryKey],
         queryFn: () => testFetchPostAPI(+queryKey),
       });
@@ -120,12 +120,17 @@ export const getServerSideProps = withCSR(
         queryKey,
         "query가 없으면 여기 로직 : -> 즉 /sample이라는 url이며, useInfinityQuery 실행하는 로직 ",
       );
-
-      await queryClient.prefetchInfiniteQuery({
-        queryKey: ["samplePost"],
-        initialPageParam: 1,
-        queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
-      });
+      try {
+        await queryClient.fetchInfiniteQuery({
+          queryKey: ["samplePost"],
+          initialPageParam: 1,
+          queryFn: ({ pageParam }) => testFetchAPI({ pageParam }),
+        });
+      } catch (err) {
+        return {
+          notFound: true,
+        };
+      }
     }
 
     return {

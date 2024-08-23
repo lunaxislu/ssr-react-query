@@ -26,38 +26,38 @@ export default function App({ Component, pageProps }: AppProps) {
   );
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const page = router.asPath;
-  //   const [navigation] = performance.getEntriesByType(
-  //     "navigation",
-  //   ) as PerformanceNavigationTiming[];
-  //   if (navigation) {
-  //     const ttfb = navigation.responseStart - navigation.requestStart;
-  //     const serverProcessingTime =
-  //       navigation.responseStart - navigation.requestStart;
+  useEffect(() => {
+    const page = router.asPath;
+    const [navigation] = performance.getEntriesByType(
+      "navigation",
+    ) as PerformanceNavigationTiming[];
+    if (navigation) {
+      const ttfb = navigation.responseStart - navigation.requestStart;
+      const serverProcessingTime =
+        navigation.responseStart - navigation.requestStart;
 
-  //     console.log("Time to First Byte (TTFB):", ttfb, "ms");
-  //     console.log("Server Processing Time:", serverProcessingTime, "ms");
-  //   }
-  //   const handleRouteChangeStart = (page: string) => {
-  //     console.time(`${page}Page Transition Time`);
-  //   };
+      console.log("Time to First Byte (TTFB):", ttfb, "ms");
+      console.log("Server Processing Time:", serverProcessingTime, "ms");
+    }
+    const handleRouteChangeStart = (page: string) => {
+      console.time(`${page}Page Transition Time`);
+    };
 
-  //   const handleRouteChangeComplete = (page: string) => {
-  //     console.timeEnd(`${page}Page Transition Time`);
-  //   };
+    const handleRouteChangeComplete = (page: string) => {
+      console.timeEnd(`${page}Page Transition Time`);
+    };
 
-  //   router.events.on("routeChangeStart", () => handleRouteChangeStart(page));
-  //   router.events.on("routeChangeComplete", () =>
-  //     handleRouteChangeComplete(page),
-  //   );
+    router.events.on("routeChangeStart", () => handleRouteChangeStart(page));
+    router.events.on("routeChangeComplete", () =>
+      handleRouteChangeComplete(page),
+    );
 
-  //   // 클린업 함수
-  //   return () => {
-  //     router.events.off("routeChangeStart", handleRouteChangeStart);
-  //     router.events.off("routeChangeComplete", handleRouteChangeComplete);
-  //   };
-  // }, [router]);
+    // 클린업 함수
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+      router.events.off("routeChangeComplete", handleRouteChangeComplete);
+    };
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
