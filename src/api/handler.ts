@@ -8,7 +8,9 @@ const instance = axios.create({
 });
 
 export const testFetchAPI = async ({ pageParam = 1 }) => {
-  const { data } = await instance.get(`/posts?_page=${pageParam}&_limit=10`); // 쿼리 스트링 쿼리 파라미터
+  const { data } = await instance.get(
+    `/12345posts?_page=${pageParam}&_limit=10`,
+  ); // 쿼리 스트링 쿼리 파라미터
   return data;
 };
 
